@@ -8,8 +8,8 @@ Introduction
 ------------------------------------------------------------------------------
 
 This guide is intended to help you install WP Engine's Mercury Environment For
-Vagrant, and then use this environment to host a website on your machine.
-Vagrant uses virtual machine software to essentially create a "second
+Vagrant, and then use this environment/machine to host a website on your
+machine. Vagrant uses virtual machine software to essentially create a "second
 computer" inside of your existing one. In simple terms, this allows your
 computer to simultaneously host and interact with a website without connecting
 to the internet, negating the need to host an unfinished website online.
@@ -81,9 +81,9 @@ Installation Guide
    date it will be much quicker.
 
    When you run the command 'vagrant up', you will be asked for a password.
-   Just hit enter three times, and you will still be able to continue with the
-   loading process with full administrator privileges. This appears to be an
-   optional password for mercury developers.
+   Just leave this field blank and hit enter three times, and you will still
+   be able to run the virtual environment with full administrator privileges.
+   This appears to be an optional password for mercury developers.
 
    You'll know when the installation is finished when the prompt reappears.
    If you see an empty line with no text then it's still installing and just
@@ -306,8 +306,8 @@ Environment' beforecontinuing.
    You should have been provided with and Amazon Web Services ID and Key
    (<AWS_ID> and <AWS_KEY>), as well as an Envato username and API Key
    (<ENV_USER> and <ENV_KEY>). You can use any of the URLs you added to hosts
-   for <WP_SITEURL>, <WP_HOME>, and <COOKIE_DOMAINS> (although you should use
-   the same one for all three). Make sure to include single quotes wherever
+   for <WP_SITEURL>, <WP_HOME>, and <COOKIE_DOMAINS>, although you should use
+   the same one for all three. Make sure to include single quotes wherever
    substituting your own data here.
 
 4) Update DB_NAME, DB_USER, and DB_PASSWORD in wp-config.php to suit the local
@@ -325,11 +325,130 @@ run before starting the download:
 is fairly large, this will take some time. It may also slow down your internet
 connection, so you may wish to execute this command when it is less likely to
 inconvenience other users on your network. If you wish to cancel
-the download, hit Ctrl + C, and restart it at any time be re-running the
+the download, hit Ctrl + C, and restart it at any time by re-running the
 'make fullsync' command.
 
 7) You website's site data should now be successfully imported. The final step
-   is to run 
+   is to log in to your site's database and update the URL:
+
+   a) Enter 'mysql -u root -p'. You will then be asked for a password; by
+      default mercury's wordpress installs will have a blank password for the
+      'root' user. Just leave this field empty and hit return.
+
+   b) Enter 'use wpe_<REPO>;', replacing <REPO> with the name of your site's
+      repository. If you want to double check the spelling of your site's
+      database in the repository, enter 'show databases;' to get a complete
+      list. Remember that semi-colons on the end of commands are crucial in
+      mysql, as is case-sensitivity.
+
+   c) Enter 'UPDATE wp_options SET option_value='<URL>' WHERE
+      option_name='siteurl';'. Replace <URL> with the same URL you used in
+      wp-config.php to set 'WP_SITEURL' and 'WP_HOME'
+
+   d) Enter 'sudo service nginx restart', then log out of the virtual
+      environment with Ctrl + D and run 'vagrant provision' to update
+      the changes made.
+
+   OPTIONAL: Your local site should now be fully up and running, but if you
+   wish to gain access to the admin areas and do not have an administrator
+   account on the live site when you run 'make fullsync', you will need to
+   follow the instructions below under 'Adding A New Site Administrator'. Do
+   not attempt to create a new user using the conventional sign-up process, as
+   this process will not complete properly in a virtual environment.
+
+------------------------------------------------------------------------------
+
+Adding A New Site Administrator
+
+------------------------------------------------------------------------------
+
+If you do not have an administrator account on the live site you are
+presumably duplicating, you will need to create a new administrator account on
+the local database. Because the site's email connectivity is not configured to
+work on a local machine, you will not be able to create a user through the
+conventional sign-up form, as sign-up emails will not be sent by the server.
+Instead, you will have to access the server's database and add the
+administrator manually:
+
+   1) Boot up and log in to your virtual environment as described in 'Using
+      The Virtual Environment'. You won't need to run any further 'cd'
+      commands to access mysql.
+
+   2) Enter 'mysql -u root -p'. You will then be asked for a password; by
+      default mercury's wordpress installs will have a blank password for the
+      'root' user. Just leave this field empty and hit return.
+
+   3) Enter 'use wpe_<REPO>;', replacing <REPO> with the name of your site's
+      repository. If you want to double check the name of your site's
+      database on the server, enter 'show databases;' to get a complete
+      list. Remember that semi-colons on the end of commands are crucial in
+      mysql.
+
+   4) Enter 'SELECT ID from wp_users ORDER BY ID DESC LIMIT 1;'. Make a note
+      of the ID number returned.
+
+   5) Enter the following commands, replacing all placeholders in '< >' with
+      your own information. Replace '<ID>' with the value you just made a note of
+      plus one.
+
+         INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,
+            user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',
+            MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',
+            '0', '<NAME>');
+
+         DELETE FROM wp_usermeta WHERE user_id='<ID>' and 
+            meta_value='a:1:{s:10:"subscriber";b:1;}';
+
+         INSERT INTO wp_usermeta(umeta_id,
+            user_id, meta_key, meta_value) VALUES (NULL, '<ID>',
+            'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');
+
+         INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,
+            meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');
+
+      NOTE: Remember to maintain single quotes wherever used in examples,
+      including around placeholders, semi-colons at the end of each command,
+      and that commands are case-sensitive.
+
+You should now be able to view your site's login page at <SITEURL>/wp-admin,
+and log in with the information you just added to the database. If you make a
+mistake when running any of the above and accidentally create bad data, use
+any of the following commands to check or delete data, then re-create it with
+the previous commands:
+
+   Check user in wp_users:
+
+      SELECT * FROM wp_users WHERE ID='<ID>';
+
+   Delete user from wp_users:
+
+      DELETE FROM wp_users WHERE ID='<ID>';
+      (note there's no * in this command)
+
+   Check wp_capabilities/wp_user_level in wp_usermeta (replace <VALUE> with
+   the value you wish to check):
+
+      SELECT * FROM wp_users WHERE user_id='<ID>' AND meta_key='<VALUE>';
+
+   Delete wp_user_level/wp_capabilities from wp_usermeta(replace <VALUE> with
+   the value you wish to check):
+
+      SELECT * FROM wp_user_level WHERE user_id='<ID>' AND meta_key='<DELETE>';
+
+When you log into the admin area, you may be redirected to the update profile
+screen. If this happens, simply delete '/profile.php' from the end of the URL
+and hit refresh to access the main dashboard.
+
+You may also be prompted to update your password, as the server believes you
+are using an automatically-generated password following conventional
+registration. This can be safely ignored, as you created your own password
+manually in mysql.
+
+NOTE: A simple alternative to this method would be to create an administrator
+account on the live site using the conventional account creation process
+before importing site data. Importing site data specifically for this purpose
+is certainly possible after initial setup using 'make sync', although this
+process may take some time to complete.
 
 ------------------------------------------------------------------------------
 
