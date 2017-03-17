@@ -1,3 +1,4 @@
+==============================================================================
 
 Installation Guide For WP Engine's Mercury Environment For Vagrant
 
@@ -29,30 +30,51 @@ selecting 'Command Prompt' from the results.
 
 ------------------------------------------------------------------------------
 
+Installation Guide - Required Software
+
+------------------------------------------------------------------------------
+
+Open a Command Line window as described above. Next, install the following
+software by typing in the commands given in brackets:
+
+   - Git (http://git-scm.org)
+      
+   - VMWare (http://vmware.com)
+     or 
+     VirtualBox (http://virtualbox.org)
+
+   - Vagrant (http://vagrantup.com)
+
+   - Node (https://nodejs.org/)
+
+   - Optional: Install Vagrant Ghost Plugin
+     (https://github.com/10up/vagrant-ghost)
+
+All prerequisistes are installed system-wide on your computer, so the
+commands to install them can be typed directly into the Command Line on
+opening.
+
+It is worth noting that the Vagrant box used in this installation uses a
+64 bit operating system, and as such it is highly recommended that it
+should be run on a 64 bit machine running a 64 bit operating system of its
+own.
+
+------------------------------------------------------------------------------
+
 Installation Guide
 
 ------------------------------------------------------------------------------
 
-1) Open a Command Line window as described above. Next, go to the link below
-   and follow the instructions to install the prereqisuites for the
-   environment, but NOT the installation instructions:
+Make sure that all prerequisite software listed under 'Installation Guide -
+Prerequisites' have been installed before running the following steps.
 
-   		https://github.com/wpengine/hgv
-
-   All prerequisistes are installed system-wide on your computer, so the
-   commands to install them can be typed directly into the Command Line on
-   opening.
-  
-   Make sure you have all prerequisites installed before continuing,
-   but not vagrant-ghost.
-
-
-2) Before installing the environment, make sure that your Command Line window
+1) Open a Command Line window as described in the Introduction. Before
+   installing the environment, make sure that your Command Line window
    is pointing to the correct folder. Failing to do this will install the
-   environment in whatever directory (folder) your terminal was pointing at when you
-   opened it (most likely your user's home folder on your system). If you are
-   unsure what directory you are currently in, it will be listed at the start
-   of every new line, before the dollar sign on mac, or '>' on windows.
+   environment in whatever directory (folder) your terminal was pointing at
+   when you opened it (most likely your user's home folder on your system). If
+   you are unsure what directory you are currently in, it will be listed at
+   the start of every new line, before the dollar sign on mac, or '>' on windows.
 
    The installation commands for the environment will operate on whatever
    directory the command line window is pointing at when they are run. To
@@ -93,11 +115,11 @@ Installation Guide
 4) When the prompt reappears, the environment installation will be complete
    and you should now have a virtual environment running in your terminal.
 
-   NOTE: In the course of running 'vagrant up', you may have seen the message
+   NOTE: In the course of running `vagrant up`, you may have seen the message
    'The guest additions on this VM do not match the installed version of
-   VirtualBox'. If so, it is recommended that you run 'vagrant plugin install
-   vagrant-vbguest' in your terminal when 'vagrant up' has finished. This will
-   fix this error the next time you run 'vagrant up', so run 'vagrant reload'
+   VirtualBox'. If so, it is recommended that you run `vagrant plugin install
+   vagrant-vbguest` in your terminal when `vagrant up` has finished. This will
+   fix this error the next time you run `vagrant up`, so run `vagrant reload`
    to reboot the virtual environment for it to take effect (it won't take
    anything like as long the second time). This is not crucial, but this
    warning can signify potential errors in some cases. If you are unsure
@@ -115,25 +137,25 @@ Basic Functionality
 
 If you have just installed and created the virtual environment, your virtual
 environment will already be running. To log in to your virtual machine, simply
-type 'vagrant ssh'.
+type `vagrant ssh`.
 
 To sign into your virtual machine at a later time, you will need to open a
-new terminal, and use the 'cd <FILEPATH>' command to change directory to that
+new terminal, and use the `cd <FILEPATH>` command to change directory to that
 of your virtual machine (inside the directory of the virtual environment
 itself, not the directory that holds the folder containing all of your
-virtual machine files). For example, 'cd /Users/john/mercury/hgv'; when viewed
+virtual machine files). For example, `cd /Users/john/mercury/hgv`; when viewed
 in Finder/Windows Explorer, the folder will contain a file called
-'Vagrantfile'. You can now run 'vagrant up', and then 'vagrant ssh' to boot up
+'Vagrantfile'. You can now run `vagrant up`, and then `vagrant ssh` to boot up
 and log in to your virtual machine. Running these commands while in a
 different directory will have no effect.
 
-Boot Up the Virtual Environment: 'vagrant up'
+Boot Up the Virtual Environment: `vagrant up`
 
-Sign In: 'vagrant ssh' (boot up first)
+Sign In: `vagrant ssh` (boot up first)
 
 Sign Out: Ctrl + D
 
-Safely Stop the Virtual Environment: 'vagrant halt' (sign out first)
+Safely Stop the Virtual Environment: `vagrant halt` (sign out first)
 
 It is generally advisable to stop the virtual machine when not being used, as
 it will allocate a fairly significant proportion of your computer's processing
@@ -144,7 +166,7 @@ Browsing Sites Hosted by the Virtual Machine
 
 Now that you have created your virtual environment, you will have access to
 two pre-loaded WordPress installations. First, follow the instructions under
-"Adding A Site to /etc/hosts", and copy and paste the following to the end
+'Adding A Site to /etc/hosts', and copy and paste the following to the end
 your hosts file:
 
 192.168.150.20 hgv.test
@@ -176,10 +198,10 @@ with the name of the website repository. Note that if your repository name is
 over twelve characters long, you will need to abbreviate it to under this
 length:
 
-'cp /vagrant/hgv_data/config/sites/default-install.yml /vagrant/hgv_data/sites/<REPO>.yml'
+`cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/sites/<REPO>.yml`
 (Note the space after 'default-install.yml')
 
-'sudo nano /vagrant/hgv_data/sites/<REPO>.yml'
+`sudo nano /vagrant/hgv_data/sites/<REPO>.yml`
 
 When you run this second command, you will be presented with a text editor in
 the terminal window (like Notepad/Notes). Use the arrow keys to navigate, and
@@ -209,13 +231,21 @@ lines using <SITE>; you will need them later to add to the hosts file.
 When you have finished making changes, exit with Ctrl + X, then hit 'y' to
 save changes, and return to overwrite the existing file.
 
-Now run the following commands, replacing <URL> with the complete URL of your
-website's repository, and <REPO> as before:
+Now sign out of the virtual machine with Ctrl + D, and enter the command
+'vagrant provision' for the changes to take effect. Note that if you wish to
+make any changes to your <REPO>.yml file later, such as changing the URLs or
+<REPO>, you will need to update /etc/hosts and run 'vagrant provision' again
+to register the changes.
 
-'cd /vagrant/hgv_data/sites/'
-'git clone <URL> <REPO>'
+You should now be able to visit your URLs in the browser and see a generic
+WordPress site. To swap this for your site, enter the following:
 
-Again, <REPO> must match the previously used repository name.
+   `rm -r /vagrant/hgv_data/sites/<REPO>`
+   `cd /vagrant/hgv_data/sites/`
+   `git clone <URL> <REPO>`
+
+Again, <REPO> must match the previously used repository name. Replace <URL>
+with the URl for your website repository.
 
 You may be asked for a username and password. If you do not have an account
 with the repository hosting service, a login to use should have been provided
@@ -237,12 +267,6 @@ like so:
 
 These URLs must match exactly the URLs you added to <SITE>.yml previously.
 Exit with Ctrl + X and save the changes as before.
-
-When the repository has finished downloading, sign out of the virtual machine
-with Ctrl + D, and enter the command 'vagrant provision' for the changes to
-take effect. Note that if you wish to make any changes to your <SITE>.yml
-file later, such as changing the URLs or <REPO>, you will need to update
-/etc/hosts and run 'vagrant provision' again to register the changes.
 
 You should now be able to visit any of the three <SITE> URLs in your browser,
 and see the first stage of the WordPress setup. If so, you are now ready to
@@ -273,16 +297,18 @@ Environment' beforecontinuing.
 
 2) Run the following commands:
       
-      'cd /vagrant/hgv_data/sites/<REPO>'
-      'mkdir tmp'
-      'sudo nano locals.mk'
+      `cd /vagrant/hgv_data/sites/<REPO>`
+      `mkdir tmp`
+      `cp wp-config-sample.php wp-config.php`
+      `sudo apt-get install lftp`
+      `sudo nano locals.mk`
 
    This last command will create the locals.mk file, and open it in nano. You
    should have been provided with and ftp user and password; add them to this
    file like so:
 
-      ftpuser = <add_your_user_here>
-      ftppass = <add_your_password_here>
+      `ftpuser = <add_your_user_here>`
+      `ftppass = <add_your_password_here>`
 
    Save and exit using Ctrl + X.
 
@@ -310,51 +336,66 @@ Environment' beforecontinuing.
    the same one for all three. Make sure to include single quotes wherever
    substituting your own data here.
 
-4) Update DB_NAME, DB_USER, and DB_PASSWORD in wp-config.php to suit the local
-install. DB_NAME and DB_USER should both be set to 'wpe_<REPO>', replacing <REPO>
-with the name of your website's repository. By default DB_PASSWORD will be
+4) Update `DB_NAME`, `DB_USER`, and `DB_PASSWORD` in wp-config.php to suit the local
+install. `DB_NAME` and `DB_USER` should both be set to `wpe_<REPO>`, replacing `<REPO>`
+with the name of your website's repository. By default `DB_PASSWORD` will be
 'wordpress'.
 
-5) You are almost ready to import from the database. Two final commands to
-run before starting the download:
-   
-   'sudo apt-get install lftp'
-   'mkdir /vagrant/hgv_data/sites/<REPO>_tmp'
-
-6) Run 'make fullsync'. This will begin the download process; if your site
+5) Run `make fullsync`. This will begin the download process; if your site
 is fairly large, this will take some time. It may also slow down your internet
 connection, so you may wish to execute this command when it is less likely to
 inconvenience other users on your network. If you wish to cancel
 the download, hit Ctrl + C, and restart it at any time by re-running the
-'make fullsync' command.
+`make fullsync` command.
 
-7) You website's site data should now be successfully imported. The final step
+6) You website's site data should now be successfully imported. The final step
    is to log in to your site's database and update the URL:
 
-   a) Enter 'mysql -u root -p'. You will then be asked for a password; by
+   a) Enter `mysql -u root -p`. You will then be asked for a password; by
       default mercury's wordpress installs will have a blank password for the
       'root' user. Just leave this field empty and hit return.
 
-   b) Enter 'use wpe_<REPO>;', replacing <REPO> with the name of your site's
+   b) Enter `use wpe_<REPO>;`, replacing `<REPO>` with the name of your site's
       repository. If you want to double check the spelling of your site's
-      database in the repository, enter 'show databases;' to get a complete
+      database in the repository, enter `show databases;` to get a complete
       list. Remember that semi-colons on the end of commands are crucial in
       mysql, as is case-sensitivity.
 
-   c) Enter 'UPDATE wp_options SET option_value='<URL>' WHERE
-      option_name='siteurl';'. Replace <URL> with the same URL you used in
-      wp-config.php to set 'WP_SITEURL' and 'WP_HOME'
+   c) Enter `UPDATE wp_options SET option_value='<URL>' WHERE
+      option_name='siteurl';`. Replace `<URL>` with the same URL you used in
+      wp-config.php to set `WP_SITEURL` and `WP_HOME`. Exit mysql with
+      Ctrl + D.
 
-   d) Enter 'sudo service nginx restart', then log out of the virtual
-      environment with Ctrl + D and run 'vagrant provision' to update
+   d) Enter `sudo service nginx restart`, then log out of the virtual
+      environment with Ctrl + D and run `vagrant provision` to update
       the changes made.
 
    OPTIONAL: Your local site should now be fully up and running, but if you
    wish to gain access to the admin areas and do not have an administrator
-   account on the live site when you run 'make fullsync', you will need to
+   account on the live site when you run `make fullsync`, you will need to
    follow the instructions below under 'Adding A New Site Administrator'. Do
    not attempt to create a new user using the conventional sign-up process, as
    this process will not complete properly in a virtual environment.
+
+TROUBLESHOOTING:
+
+'When I run make fullsync it just says Connecting and sits there not doing
+anything, then keeps trying to reconnect'
+
+There is probably an issue with the 'lftp' line in Makefile in your
+site repository's directory. The Makefile contains the code that defines the
+`make fullsync` command. Open this file in your terminal by navigating to the
+site repository directory using `cd`, then run `sudo nano Makefile`. In the
+first block of text you will see a line that begins `lftpauth :=` (about nine
+lines into the block). This particular error suggests an issue with the IP
+address or URL at the end of the line; make sure that the IP address/URL is
+correct, as well as the port number (the number after `-p`), and make sure
+that your locals.mk file is in the same directory as Makefile, and that the
+details inside it are correct and properly laid out. Finally, make sure that
+the line `-include locals.mk` is included somewhere above the lftpauth line in
+Makefile. If you are unsure about how to interpret this line, copy and send it
+to your site administrator and ask them to check the details for you.
+
 
 ------------------------------------------------------------------------------
 
@@ -371,40 +412,40 @@ Instead, you will have to access the server's database and add the
 administrator manually:
 
    1) Boot up and log in to your virtual environment as described in 'Using
-      The Virtual Environment'. You won't need to run any further 'cd'
+      The Virtual Environment'. You won't need to run any further `cd`
       commands to access mysql.
 
-   2) Enter 'mysql -u root -p'. You will then be asked for a password; by
+   2) Enter `mysql -u root -p`. You will then be asked for a password; by
       default mercury's wordpress installs will have a blank password for the
-      'root' user. Just leave this field empty and hit return.
+      `root` user. Just leave this field empty and hit return.
 
-   3) Enter 'use wpe_<REPO>;', replacing <REPO> with the name of your site's
+   3) Enter `use wpe_<REPO>;`, replacing <REPO> with the name of your site's
       repository. If you want to double check the name of your site's
-      database on the server, enter 'show databases;' to get a complete
+      database on the server, enter `show databases;` to get a complete
       list. Remember that semi-colons on the end of commands are crucial in
       mysql.
 
-   4) Enter 'SELECT ID from wp_users ORDER BY ID DESC LIMIT 1;'. Make a note
+   4) Enter `SELECT ID from wp_users ORDER BY ID DESC LIMIT 1;`. Make a note
       of the ID number returned.
 
-   5) Enter the following commands, replacing all placeholders in '< >' with
-      your own information. Replace '<ID>' with the value you just made a note of
+   5) Enter the following commands, replacing all placeholders in `< >` with
+      your own information. Replace `<ID>` with the value you just made a note of
       plus one.
 
-         INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,
-            user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',
-            MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',
-            '0', '<NAME>');
+         `INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,`
+            `user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',`
+            `MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',`
+            `'0', '<NAME>');`
 
-         DELETE FROM wp_usermeta WHERE user_id='<ID>' and 
-            meta_value='a:1:{s:10:"subscriber";b:1;}';
+         `DELETE FROM wp_usermeta WHERE user_id='<ID>' AND`
+            `meta_value='a:1:{s:10:"subscriber";b:1;}';`
 
-         INSERT INTO wp_usermeta(umeta_id,
-            user_id, meta_key, meta_value) VALUES (NULL, '<ID>',
-            'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');
+         `INSERT INTO wp_usermeta(umeta_id,`
+            `user_id, meta_key, meta_value) VALUES (NULL, '<ID>',`
+            `'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');`
 
-         INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,
-            meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');
+         `INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,`
+            `meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');`
 
       NOTE: Remember to maintain single quotes wherever used in examples,
       including around placeholders, semi-colons at the end of each command,
@@ -418,22 +459,22 @@ the previous commands:
 
    Check user in wp_users:
 
-      SELECT * FROM wp_users WHERE ID='<ID>';
+      `SELECT * FROM wp_users WHERE ID='<ID>';`
 
    Delete user from wp_users:
 
-      DELETE FROM wp_users WHERE ID='<ID>';
+      `DELETE FROM wp_users WHERE ID='<ID>';`
       (note there's no * in this command)
 
-   Check wp_capabilities/wp_user_level in wp_usermeta (replace <VALUE> with
+   Check wp_capabilities/wp_user_level in wp_usermeta (replace `<VALUE>` with
    the value you wish to check):
 
-      SELECT * FROM wp_users WHERE user_id='<ID>' AND meta_key='<VALUE>';
+      `SELECT * FROM wp_users WHERE user_id='<ID>' AND meta_key='<VALUE>';`
 
-   Delete wp_user_level/wp_capabilities from wp_usermeta(replace <VALUE> with
+   Delete wp_user_level/wp_capabilities from wp_usermeta(replace `<VALUE>` with
    the value you wish to check):
 
-      SELECT * FROM wp_user_level WHERE user_id='<ID>' AND meta_key='<DELETE>';
+      `SELECT * FROM wp_user_level WHERE user_id='<ID>' AND meta_key='<DELETE>';`
 
 When you log into the admin area, you may be redirected to the update profile
 screen. If this happens, simply delete '/profile.php' from the end of the URL
@@ -489,9 +530,9 @@ your virtual environment.
 Boot up and sign in to your virtual environment, then enter the following
 commands, replacing <REPO> with the name of your website repository:
 
-'cd /vagrant/hgv_data/sites/<REPO>'
+`cd /vagrant/hgv_data/sites/<REPO>`
 
-'git pull'
+`git pull`
 
 After downloading any changes, the updated version will be viewable in the
 browser.
