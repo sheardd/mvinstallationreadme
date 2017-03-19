@@ -56,13 +56,14 @@ https://github.com/wpengine/hgv
    if it fails to do so, copy and paste the following to the end your hosts
    file on your host machine (/etc/hosts):
 
-   192.168.150.20 hgv.test
+   ```192.168.150.20 hgv.test
    192.168.150.20 admin.hgv.test
    192.168.150.20 hhvm.hgv.test
    192.168.150.20 php.hgv.test
    192.168.150.20 cache.hhvm.hgv.test
    192.168.150.20 cache.php.hgv.test
    192.168.150.20 xhprof.hgv.test
+   ```
 
    Now visit http://hgv.test/, and you should see the Mercury Vagrant
    documentation page.
@@ -89,13 +90,14 @@ characters long, you will need to shorten it:
 
 Change the content of <REPO-NAME>.yml to the following:
 
-      wp:
+      ```wp:
         enviro: <REPO-NAME>
         hhvm_domains:
           - <SITE-NAME>.test
           - www.<SITE-NAME>.test
         php_domains:
           - php.<SITE-NAME>.test
+      ```
 
 Save and reprovision your vm (`vagrant provision`) for the changes to take
 effect.
@@ -103,9 +105,10 @@ effect.
 Now add the URLs from your yml file to /etc/hosts on your host machine, for
 example:
 
-192.168.150.20 <SITE>.test
+```192.168.150.20 <SITE>.test
 192.168.150.20 www.<SITE>.test
 192.168.150.20 php.<SITE>.test
+```
 
 You should now be able to visit your URLs in the browser and see a generic
 WordPress site. When running `vagrant provision` the vm checks for yml files
@@ -143,7 +146,7 @@ Import Site Data From A Database
 
 3) Copy wp-config-sample.php to wp-config.php, then add the following:
 
-      define( 'DEVSITE', true );
+      ```define( 'DEVSITE', true );
       define( 'INTERCEPT_EMAIL', '<EMAIL>' );
 
       define( 'WP_SITEURL', '<URL>' );
@@ -156,6 +159,7 @@ Import Site Data From A Database
       define( 'WP_TEMP_DIR', '/vagrant/hgv_data/sites/<REPO>/tmp' );
       define( 'ENVATO_USER_NAME', '<ENV_USER>' );
       define( 'ENVATO_API_KEY', '<ENV_KEY>' );
+      ```
 
    You can use any one of the URLs you added to hosts for `<WP_SITEURL>`,
    `<WP_HOME>`, and `<COOKIE_DOMAINS>`. Replace all other placeholders with your

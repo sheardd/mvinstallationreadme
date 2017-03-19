@@ -141,13 +141,14 @@ Prerequisites' have been installed before running the following steps.
    paste the following to the end your hosts file on your host machine
    (/etc/hosts):
 
-   192.168.150.20 hgv.test
+   ```192.168.150.20 hgv.test
    192.168.150.20 admin.hgv.test
    192.168.150.20 hhvm.hgv.test
    192.168.150.20 php.hgv.test
    192.168.150.20 cache.hhvm.hgv.test
    192.168.150.20 cache.php.hgv.test
    192.168.150.20 xhprof.hgv.test
+   ```
 
    Visit http://hgv.test/ again to check that the domains have been added
    correctly.
@@ -197,13 +198,14 @@ two pre-loaded WordPress installations. First, follow the instructions under
 'Adding A Site to /etc/hosts', and copy and paste the following to the end
 your hosts file:
 
-192.168.150.20 hgv.test
+```192.168.150.20 hgv.test
 192.168.150.20 admin.hgv.test
 192.168.150.20 hhvm.hgv.test
 192.168.150.20 php.hgv.test
 192.168.150.20 cache.hhvm.hgv.test
 192.168.150.20 cache.php.hgv.test
 192.168.150.20 xhprof.hgv.test
+```
 
 Now visit http://hgv.test/, and you should see the Mercury Vagrant
 documentation page.
@@ -239,13 +241,14 @@ words, however, as these commands do something else here.
 Change the content of this file to read the following, again replacing <REPO>
 with your repository name and <SITE> with the name of your site:
 
-      wp:
+      ```wp:
         enviro: <REPO>
         hhvm_domains:
           - <SITE>.test
           - www.<SITE>.test
         php_domains:
           - php.<SITE>.test
+      ```
 
 Please note that any URLs added under hhvm_domains will be loaded using hhvm,
 and any added under php_domains will be loaded using php. As a result there
@@ -291,9 +294,10 @@ terminal window and follow the instructions below under 'Adding A Site to
 /etc/hosts'. Add the URLs that you saved from <SITE>.yml to your hosts file,
 like so:
 
-192.168.150.20 <SITE>.test
+```192.168.150.20 <SITE>.test
 192.168.150.20 www.<SITE>.test
 192.168.150.20 php.<SITE>.test
+```
 
 These URLs must match exactly the URLs you added to <SITE>.yml previously.
 Exit with Ctrl + X and save the changes as before.
@@ -350,7 +354,7 @@ Environment' beforecontinuing.
 3) In the same directory in the terminal, add the following to wp-config.php
    by running 'sudo nano wp-config.php':
 
-      define( 'DEVSITE', true );
+      ```define( 'DEVSITE', true );
       define( 'INTERCEPT_EMAIL', '<EMAIL>' );
 
       define( 'WP_SITEURL', '<URL>' );
@@ -363,6 +367,7 @@ Environment' beforecontinuing.
       define( 'WP_TEMP_DIR', '/vagrant/hgv_data/sites/<REPO>/tmp' );
       define( 'ENVATO_USER_NAME', '<ENV_USER>' );
       define( 'ENVATO_API_KEY', '<ENV_KEY>' );
+      ```
 
    You should have been provided with and Amazon Web Services ID and Key
    (<AWS_ID> and <AWS_KEY>), as well as an Envato username and API Key
