@@ -96,10 +96,13 @@ Prerequisites' have been installed before running the following steps.
 3) Once you have got your terminal pointing at the directory you wish to
    keep the virtual environment in, run the following commands:
 
-      - `git clone --recursive https://github.com/wpengine/hgv.git`
-      - `cd hgv`
-      - `npm install`
-      - `vagrant up`
+      `git clone --recursive https://github.com/wpengine/hgv.git`
+      
+      `cd hgv`
+      
+      `npm install`
+      
+      `vagrant up`
 
    Bear in mind that running the 'vagrant up' command for the first time may
    take awhile, since the virtual machine needs time to create itself. If you
@@ -266,7 +269,9 @@ You should now be able to visit your URLs in the browser and see a generic
 WordPress site. To swap this for your site, enter the following:
 
    `rm -r /vagrant/hgv_data/sites/<REPO>`
+   
    `cd /vagrant/hgv_data/sites/`
+   
    `git clone <URL> <REPO>`
 
 Again, <REPO> must match the previously used repository name. Replace <URL>
