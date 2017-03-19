@@ -90,7 +90,8 @@ characters long, you will need to shorten it:
 
 Change the content of <REPO-NAME>.yml to the following:
 
-      ```wp:
+      ```
+      wp:
         enviro: <REPO-NAME>
         hhvm_domains:
           - <SITE-NAME>.test

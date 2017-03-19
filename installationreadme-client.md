@@ -241,7 +241,8 @@ words, however, as these commands do something else here.
 Change the content of this file to read the following, again replacing <REPO>
 with your repository name and <SITE> with the name of your site:
 
-      ```wp:
+      ```
+      wp:
         enviro: <REPO>
         hhvm_domains:
           - <SITE>.test
