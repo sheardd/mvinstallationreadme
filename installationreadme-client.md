@@ -241,15 +241,14 @@ words, however, as these commands do something else here.
 Change the content of this file to read the following, again replacing <REPO>
 with your repository name and <SITE> with the name of your site:
 
-      ```
-      wp:
+      `wp:
         enviro: <REPO>
         hhvm_domains:
           - <SITE>.test
           - www.<SITE>.test
         php_domains:
           - php.<SITE>.test
-      ```
+      `
 
 Please note that any URLs added under hhvm_domains will be loaded using hhvm,
 and any added under php_domains will be loaded using php. As a result there
