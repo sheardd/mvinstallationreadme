@@ -1,8 +1,8 @@
-==============================================================================
+------------------------------------------------------------------------------
 
 Installation Guide For WP Engine's Mercury Environment For Vagrant
 
-==============================================================================
+------------------------------------------------------------------------------
 
 Introduction
 
@@ -37,15 +37,15 @@ Installation Guide - Required Software
 Open a Command Line window as described above. Next, install the following
 software by typing in the commands given in brackets:
 
-   - Git (http://git-scm.org)
+   - Git (https://git-scm.com/download/)
       
-   - VMWare (http://vmware.com)
+   - VMWare (hhttp://www.vmware.com/products/personal-desktop-virtualization.html)
      or 
      VirtualBox (http://virtualbox.org)
 
-   - Vagrant (http://vagrantup.com)
+   - Vagrant (https://www.vagrantup.com/downloads.html)
 
-   - Node (https://nodejs.org/)
+   - Node (https://nodejs.org/en/)
 
    - Optional: Install Vagrant Ghost Plugin
      (https://github.com/10up/vagrant-ghost)
@@ -82,7 +82,7 @@ Prerequisites' have been installed before running the following steps.
    <FILEPATH> with the full path to the folder you want to install the
    environment in. For example, to install the environment in the 'mercury'
    directory in the home directory of user 'john', type
-   'cd /Users/john/mercury' on a Mac or 'cd C:\Users\John\Mercury' on a PC.
+   'cd /Users/john/mercury' on a Mac or 'cd c:\Users\John\Mercury' on a PC.
    
    Alternatively, if you are using a PC, once you have installed Git in step 1
    you can navigate to the directory you want to use in Windows Explorer,
@@ -93,14 +93,18 @@ Prerequisites' have been installed before running the following steps.
    these instructions.
 
 
-3) You should now be ready to follow the installation instructions. Note that
-   in step 2) of the instructions it refers to 'changing into' the hgv
-   directory. This just means running the cd command again; this time you can
-   just run 'cd hgv' to move the terminal's pointer into the new directory.
-   You should also bear in mind that running the 'vagrant up' command for the
-   first time may take awhile, since the virtual machine needs time to create
-   itself. If you need to run the command again for this machine at a later
-   date it will be much quicker.
+3) Once you have got your terminal pointing at the directory you wish to
+   keep the virtual environment in, run the following commands:
+
+      `git clone --recursive https://github.com/wpengine/hgv.git`
+      `cd hgv`
+      `npm install`
+      `vagrant up`
+
+   Bear in mind that running the 'vagrant up' command for the first time may
+   take awhile, since the virtual machine needs time to create itself. If you
+   need to run the command again for this machine at a later date it will be
+   much quicker.
 
    When you run the command 'vagrant up', you will be asked for a password.
    Just leave this field blank and hit enter three times, and you will still
@@ -126,6 +130,27 @@ Prerequisites' have been installed before running the following steps.
    whether this message appeared, you can install the vbguest plugin anyway if
    you want to be sure.
 
+5) Now that you have created your virtual environment, you will have access to
+   two pre-loaded WordPress installations. You should now be able to visit
+   http://hgv.test/ and see the Mercury Vagrant documentation page.
+   However, if you simply see a 'Not Found' message or something similar,
+   follow the instructions under 'Adding A Site to /etc/hosts', and copy and
+   paste the following to the end your hosts file on your host machine
+   (/etc/hosts):
+
+   192.168.150.20 hgv.test
+   192.168.150.20 admin.hgv.test
+   192.168.150.20 hhvm.hgv.test
+   192.168.150.20 php.hgv.test
+   192.168.150.20 cache.hhvm.hgv.test
+   192.168.150.20 cache.php.hgv.test
+   192.168.150.20 xhprof.hgv.test
+
+   Visit http://hgv.test/ again to check that the domains have been added
+   correctly.
+
+   Getting this working is vital for getting access to the documentation for the
+   environment.
 
 ------------------------------------------------------------------------------
 
@@ -356,10 +381,10 @@ the download, hit Ctrl + C, and restart it at any time by re-running the
       'root' user. Just leave this field empty and hit return.
 
    b) Enter `use wpe_<REPO>;`, replacing `<REPO>` with the name of your site's
-      repository. If you want to double check the spelling of your site's
-      database in the repository, enter `show databases;` to get a complete
-      list. Remember that semi-colons on the end of commands are crucial in
-      mysql, as is case-sensitivity.
+      repository. If you want to double check your site's database in the
+      repository, enter `show databases;` to get a complete list. Remember
+      that semi-colons on the end of commands are crucial in mysql, as is
+      case-sensitivity.
 
    c) Enter `UPDATE wp_options SET option_value='<URL>' WHERE
       option_name='siteurl';`. Replace `<URL>` with the same URL you used in
@@ -497,26 +522,23 @@ Adding A Site To /etc/hosts
 
 ------------------------------------------------------------------------------
 
-Follow the instructions at the link below to add the lines given previously to
-your /etc/hosts file on your operating system:
-
-https://www.howtogeek.com/howto/27350/beginner-geek-how-to-edit-your-hosts-file/
-
 Note that you should NOT be signed in to your virtual environment when
 following these instructions (if you are signed in in a different terminal
-window this is ok).
+window this is ok). To make the following changes to your machine you must
+have administrator/sudo privileges.
 
-The above instructions may prompt you to use 'vim' in the command line.
-This will open a text editor program in your terminal window (like
-Notepad/Notes), but it may not seem that intuitive. If so, exit vim by typing
-':q' and hitting enter, then re-run the vim command but replace the word 'vim'
-with 'nano' for a more user-friendly alternative.
+1) run 'sudo nano /etc/hosts' on Mac or Linux or
+   'sudo nano c:\windows\system32\drivers\etc\hosts' on Windows.
 
-Copy and paste the necessary lines into the end of your hosts file. Save and
-exit, being careful not to change anything else. If you are using
-'nano' as suggested above, exit by hitting Ctrl + X, then 'y' to save changes,
-and then hit return to save the file with the same name and overwrite
-the existing version with your updated one.
+2) When prompted, enter the password you use to log into the computer you're
+   using.
+
+3) Copy and paste the necessary lines into the end of your hosts file.
+
+4) Save and exit, being careful not to change anything else, by hitting
+   Ctrl + X, then 'y' to save changes, and then hit return to save the file
+   with the same name and overwrite the existing version with your updated
+   one.
 
 ------------------------------------------------------------------------------
 

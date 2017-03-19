@@ -1,27 +1,31 @@
-==============================================================================
+------------------------------------------------------------------------------
 
 Installation Guide For WP Engine's Mercury Environment For Vagrant
 
-==============================================================================
+------------------------------------------------------------------------------
 
-Installation Guide
+Installing the Mercury Environment
 
 ------------------------------------------------------------------------------
 
+The repository for the Mercury Environment can be viewed at
+https://github.com/wpengine/hgv
+
 1) Install all prerequisites:
       
-      - Git (http://git-scm.org)
-      
-      - Install VMWare (http://vmware.com)
-        or
-        VirtualBox (http://virtualbox.org)
+	   - Git (https://git-scm.com/download/)
+	      
+	   - VMWare (hhttp://www.vmware.com/products/personal-desktop-virtualization.html)
+	     or 
+	     VirtualBox (http://virtualbox.org)
 
-      - Install Vagrant (http://vagrantup.com)
+	   - Vagrant (https://www.vagrantup.com/downloads.html)
 
-      - Install Node (https://nodejs.org/)
+	   - Node (https://nodejs.org/en/)
 
-      - Optional: Install Vagrant Ghost Plugin
-        (https://github.com/10up/vagrant-ghost)
+	   - Optional: Install Vagrant Ghost Plugin
+	     (https://github.com/10up/vagrant-ghost)
+	     (`vagrant plugin install vagrant-ghost`)
 
    It is worth noting that the Vagrant box used in this installation uses a
    64 bit operating system, and as such it is highly recommended that it
@@ -36,12 +40,12 @@ Installation Guide
 3) cd into the hgv directory and run `npm install` to install, build and
    deploy script dependencies.
 
+
 4) Run `vagrant up`
 
-   NOTE: In the course of running `vagrant up`, you may have seen the message
-   `The guest additions on this VM do not match the installed version of
-   VirtualBox`. If so, it is recommended that you run `vagrant plugin install
-   vagrant-vbguest` in your terminal when `vagrant up has finished, and then
+   NOTE: You may need to install vagrant-vbguest (`vagrant plugin install
+   vagrant-vbguest`) if you see the message `The guest additions on this VM do
+   not match the installed version of VirtualBox`, and then
    reload your vm with `vagrant reload`. This will reconcile version
    disparities between Virtualbox and its guest additions.
 
@@ -76,9 +80,8 @@ Importing A Website Into the Virtual Environment
 These instructions assume that you already have a fully-provisioned website
 repository set up on a repository hosting service, such as Github.
 
-To install a local version of your website repository, boot up and log in to
-the virtual machine, then run the following commands. Note that if your
-repository name is over twelve characters long, you will need to shorten it:
+Run the following in your vm; if your repository name is over twelve
+characters long, you will need to shorten it:
 
 `cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/sites/<REPO-NAME>.yml`
 
@@ -94,11 +97,15 @@ Change the content of <REPO-NAME>.yml to the following:
         php_domains:
           - php.<SITE-NAME>.test
 
-Remember to make a note of all domains; you will need them later to add to
-/etc/hosts on your host machine.
+Save and reprovision your vm (`vagrant provision`) for the changes to take
+effect.
 
-Save changes and sign out of the vm with Ctrl + D, and run
-`vagrant provision` for the changes to take effect.
+Now add the URLs from your yml file to /etc/hosts on your host machine, for
+example:
+
+192.168.150.20 <SITE>.test
+192.168.150.20 www.<SITE>.test
+192.168.150.20 php.<SITE>.test
 
 You should now be able to visit your URLs in the browser and see a generic
 WordPress site. When running `vagrant provision` the vm checks for yml files
@@ -109,12 +116,8 @@ simply delete the newly-minted wordpress installation in the sites directory
 in its place. Remember that the repo's name must match the one used in your
 yml file.
 
-While your repo downloads, add the URLs from your yml file to /etc/hosts, for
-example:
-
-192.168.150.20 <SITE>.test
-192.168.150.20 www.<SITE>.test
-192.168.150.20 php.<SITE>.test
+When the repo has finished downloading, you should be able to visit your URLs
+and see the first step in the setup of WordPress (language selection).
 
 ------------------------------------------------------------------------------
 
@@ -127,6 +130,7 @@ Import Site Data From A Database
       `mkdir tmp`
       `sudo apt-get install lftp'
       `sudo nano locals.mk`
+
 
 2) Add the following to locals.mk:
 
@@ -154,12 +158,15 @@ Import Site Data From A Database
    `<WP_HOME>`, and `<COOKIE_DOMAINS>`. Replace all other placeholders with your
    own information.
 
+
 4) Update `DB_NAME`, `DB_USER`, and `DB_PASSWORD` in wp-config.php to suit the local
 install. `DB_NAME` and `DB_USER` should both be set to `wpe_<REPO>`, replacing `<REPO>`
 with the name of your website's repository. By default `DB_PASSWORD` will be
 'wordpress'.
 
+
 5) Run `make fullsync`.
+
 
 6) You website's site data should now be successfully imported. The final step
    is to log in to your site's database and update the URL:
@@ -178,6 +185,7 @@ with the name of your website's repository. By default `DB_PASSWORD` will be
    d) `sudo service nginx restart`
 
    e) Run `vagrant provision` to update the changes made.
+
 
 OPTIONAL: Your local site should now be fully up and running, but if you
 wish to gain access to the admin areas and do not have an administrator
