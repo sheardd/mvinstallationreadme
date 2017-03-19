@@ -96,10 +96,10 @@ Prerequisites' have been installed before running the following steps.
 3) Once you have got your terminal pointing at the directory you wish to
    keep the virtual environment in, run the following commands:
 
-      `git clone --recursive https://github.com/wpengine/hgv.git`
-      `cd hgv`
-      `npm install`
-      `vagrant up`
+      - `git clone --recursive https://github.com/wpengine/hgv.git`
+      - `cd hgv`
+      - `npm install`
+      - `vagrant up`
 
    Bear in mind that running the 'vagrant up' command for the first time may
    take awhile, since the virtual machine needs time to create itself. If you
@@ -174,13 +174,13 @@ in Finder/Windows Explorer, the folder will contain a file called
 and log in to your virtual machine. Running these commands while in a
 different directory will have no effect.
 
-Boot Up the Virtual Environment: `vagrant up`
+- Boot Up the Virtual Environment: `vagrant up`
 
-Sign In: `vagrant ssh` (boot up first)
+- Sign In: `vagrant ssh` (boot up first)
 
-Sign Out: Ctrl + D
+- Sign Out: Ctrl + D
 
-Safely Stop the Virtual Environment: `vagrant halt` (sign out first)
+- Safely Stop the Virtual Environment: `vagrant halt` (sign out first)
 
 It is generally advisable to stop the virtual machine when not being used, as
 it will allocate a fairly significant proportion of your computer's processing
@@ -323,9 +323,13 @@ Environment' beforecontinuing.
 2) Run the following commands:
       
       `cd /vagrant/hgv_data/sites/<REPO>`
+      
       `mkdir tmp`
+      
       `cp wp-config-sample.php wp-config.php`
+      
       `sudo apt-get install lftp`
+      
       `sudo nano locals.mk`
 
    This last command will create the locals.mk file, and open it in nano. You
@@ -333,6 +337,7 @@ Environment' beforecontinuing.
    file like so:
 
       `ftpuser = <add_your_user_here>`
+      
       `ftppass = <add_your_password_here>`
 
    Save and exit using Ctrl + X.
@@ -457,20 +462,20 @@ administrator manually:
       your own information. Replace `<ID>` with the value you just made a note of
       plus one.
 
-         `INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,`
-            `user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',`
-            `MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',`
-            `'0', '<NAME>');`
+         `INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,
+            user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',
+            MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',
+            '0', '<NAME>');`
 
-         `DELETE FROM wp_usermeta WHERE user_id='<ID>' AND`
-            `meta_value='a:1:{s:10:"subscriber";b:1;}';`
+         `DELETE FROM wp_usermeta WHERE user_id='<ID>' AND
+            meta_value='a:1:{s:10:"subscriber";b:1;}';`
 
-         `INSERT INTO wp_usermeta(umeta_id,`
-            `user_id, meta_key, meta_value) VALUES (NULL, '<ID>',`
-            `'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');`
+         `INSERT INTO wp_usermeta(umeta_id,
+            user_id, meta_key, meta_value) VALUES (NULL, '<ID>',
+            'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');`
 
-         `INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,`
-            `meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');`
+         `INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,
+            meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');`
 
       NOTE: Remember to maintain single quotes wherever used in examples,
       including around placeholders, semi-colons at the end of each command,

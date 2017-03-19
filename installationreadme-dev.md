@@ -128,13 +128,16 @@ Import Site Data From A Database
 1) Run the following commands inside your site's directory on the vm:
       
       `mkdir tmp`
+      
       `sudo apt-get install lftp'
+      
       `sudo nano locals.mk`
 
 
 2) Add the following to locals.mk:
 
       `ftpuser = <add_your_user_here>`
+      
       `ftppass = <add_your_password_here>`
 
 
@@ -224,17 +227,17 @@ user_id='<ID>' AND meta_value='a:1:{s:10:"subscriber";b:1;}';`)
    made a note of plus one, and all other placeholders with your own
    information:
 
-      `INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,`
-         `user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',`
-         `MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',`
-         `'0', '<NAME>');`
+      `INSERT INTO wp_users(ID, user_login, user_pass, user_nicename,
+         user_email, user_status, display_name) VALUES ('<ID>', '<USERNAME>',
+         MD5('<PASSWORD>'), '<USERNAME>', '<EMAIL>',
+         '0', '<NAME>');`
 
-      `INSERT INTO wp_usermeta(umeta_id,`
-         `user_id, meta_key, meta_value) VALUES (NULL, '<ID>',`
-         `'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');`
+      `INSERT INTO wp_usermeta(umeta_id,
+         user_id, meta_key, meta_value) VALUES (NULL, '<ID>',
+         'wp_capabilities', 'a:1:{s:13:"administrator";b:1;}');`
 
-      `INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,`
-         `meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');`
+      `INSERT INTO wp_usermeta(umeta_id, user_id, meta_key,
+         meta_value) VALUES (NULL, '<ID>', 'wp_user_level', '10');`
 
 You should now be able to log in with the information you just added to the
 database.
