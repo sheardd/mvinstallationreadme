@@ -228,7 +228,7 @@ with the name of the website repository. Note that if your repository name is
 over twelve characters long, you will need to abbreviate it to under this
 length:
 
-`cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/sites/<REPO>.yml`
+`cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/config/sites/<REPO>.yml`
 (Note the space after 'default-install.yml')
 
 `sudo nano /vagrant/hgv_data/sites/<REPO>.yml`
