@@ -293,7 +293,8 @@ terminal window and follow the instructions below under 'Adding A Site to
 /etc/hosts'. Add the URLs that you saved from <SITE>.yml to your hosts file,
 like so:
 
-```192.168.150.20 <SITE>.test
+```
+192.168.150.20 <SITE>.test
 192.168.150.20 www.<SITE>.test
 192.168.150.20 php.<SITE>.test
 ```

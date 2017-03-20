@@ -88,7 +88,7 @@ characters long, you will need to shorten it:
 
 `sudo nano /vagrant/hgv_data/sites/<REPO-NAME>.yml`
 
-Change the content of <REPO-NAME>.yml to the following:
+Change the content of `<REPO-NAME>.yml` to the following:
 
       wp:
         enviro: <REPO-NAME>
@@ -104,7 +104,8 @@ effect.
 Now add the URLs from your yml file to /etc/hosts on your host machine, for
 example:
 
-```192.168.150.20 <SITE>.test
+```
+192.168.150.20 <SITE>.test
 192.168.150.20 www.<SITE>.test
 192.168.150.20 php.<SITE>.test
 ```
