@@ -110,9 +110,11 @@ Prerequisites' have been installed before running the following steps.
    much quicker.
 
    When you run the command 'vagrant up', you will be asked for a password.
-   Just leave this field blank and hit enter three times, and you will still
-   be able to run the virtual environment with full administrator privileges.
-   This appears to be an optional password for mercury developers.
+   This is the password of an administrator for your computer. It needs this
+   to make changes to your computer's hosts file. You can skip this for now
+   if you want, just enter an incorrect password three times to continue.
+   Instructions to make changes to the hosts file have been included further
+   on (will still require administrator permission).
 
    You'll know when the installation is finished when the prompt reappears.
    If you see an empty line with no text then it's still installing and just

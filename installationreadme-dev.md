@@ -86,7 +86,7 @@ characters long, you will need to shorten it:
 
 `cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/config/sites/<REPO-NAME>.yml`
 
-`sudo nano /vagrant/hgv_data/sites/<REPO-NAME>.yml`
+`sudo nano /vagrant/hgv_data/config/sites/<REPO-NAME>.yml`
 
 Change the content of `<REPO-NAME>.yml` to the following:
 
