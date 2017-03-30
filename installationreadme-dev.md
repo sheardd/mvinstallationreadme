@@ -249,3 +249,29 @@ database.
 When you log into the admin area, you may be prompted to update your password,
 as the server believes you are using an automatically-generated password
 following conventional registration. This can be safely ignored.
+
+------------------------------------------------------------------------------
+
+Updating Packages
+
+------------------------------------------------------------------------------
+
+Packages can be updated using apt
+
+   sudo apt-get update
+   sudo apt-get upgrade
+
+However, due to the age of the installed version of Percona, it is likely that
+when you run `sudo apt-get update` you will be presented with the following:
+
+   W: GPG error: http://repo.percona.com trusty InRelease: The following
+   signatures couldn't be verified because the public key is not available:
+   NO_PUBKEY <KEY-STRING>
+
+This is due to a change in the method of encrypting keys in more recent
+versions of Percona. To fix this, run the following:
+
+   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <KEY-STRING>
+
+When the key has been updated, simply run the apt commands again to update.
+
