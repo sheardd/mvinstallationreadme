@@ -84,9 +84,8 @@ repository set up on a repository hosting service, such as Github.
 Run the following in your vm; if your repository name is over twelve
 characters long, you will need to shorten it:
 
-`cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/config/sites/<REPO-NAME>.yml`
-
-`sudo nano /vagrant/hgv_data/config/sites/<REPO-NAME>.yml`
+    $ cp /vagrant/provisioning/default-install.yml /vagrant/hgv_data/config/sites/<REPO-NAME>.yml
+    $ sudo nano /vagrant/hgv_data/config/sites/<REPO-NAME>.yml
 
 Change the content of `<REPO-NAME>.yml` to the following:
 
@@ -100,6 +99,12 @@ Change the content of `<REPO-NAME>.yml` to the following:
 
 Save and reprovision your vm (`vagrant provision`) for the changes to take
 effect.
+
+Or from the vagrant root, taking advantage of synced folders:
+
+    $ cp provisioning/default-install.yml hgv_data/config/sites/<REPO-NAME>.yml
+    $ ${EDITOR} hgv_data/config/sites/<REPO-NAME>.yml # edit to match the above
+    $ vagrant reload --provision
 
 Now add the URLs from your yml file to /etc/hosts on your host machine, for
 example:
